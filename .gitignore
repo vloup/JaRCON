@@ -1,0 +1,10 @@
+bin/*
+.classpath
+.project
+Thumbs.db
+.DS_Store
+*.swp
+*.class
+*.jar
+*.ini
+*.bak
