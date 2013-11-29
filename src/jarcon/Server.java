@@ -115,6 +115,7 @@ public final class Server implements Cloneable {
 		socket.send(packetSend);
 
 		//receiving process
+		//TODO there are more than one packet!!!
 		byte[] receiveBuffer = new byte[65507];
 		DatagramPacket packetReceive = new DatagramPacket(receiveBuffer, receiveBuffer.length);
 		socket.receive(packetReceive);

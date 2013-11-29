@@ -27,7 +27,7 @@ public final class Config {
 	 */
 	public Config() throws FileNotFoundException, IOException {
 		Properties prop = new Properties();
-		prop.load(new FileInputStream(".jarcon/" + configFile));
+		prop.load(new FileInputStream(System.getProperty("user.home") + "/" + ".jarcon/" + configFile));
 
 		//get current server
 		String currentServerName = prop.getProperty("server");
@@ -59,7 +59,7 @@ public final class Config {
 	 */
 	public Server getServer(String serverName) throws FileNotFoundException, IOException {
 		Properties prop = new Properties();
-		prop.load(new FileInputStream(".jarcon/servers/" + serverName + ".properties"));
+		prop.load(new FileInputStream(System.getProperty("user.home") + "/" + ".jarcon/servers/" + serverName + ".properties"));
 
 		//getting the datas
 		String name = prop.getProperty("name");
@@ -98,7 +98,7 @@ public final class Config {
 	 */
 	public void addServer(Server server) throws IOException {
 		Properties prop = server.toProperties();
-		prop.store(new FileOutputStream(".jarcon/servers/" + server.name() + ".properties"), null);
+		prop.store(new FileOutputStream(System.getProperty("user.home") + "/" + ".jarcon/servers/" + server.name() + ".properties"), null);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public final class Config {
 		if (getServer(string).equals(currentServer)) {
 			throw new IllegalArgumentException("Server currently set as the default one");
 		}
-		File file = new File(".jarcon/servers/" + string + ".properties");
+		File file = new File(System.getProperty("user.home") + "/" + ".jarcon/servers/" + string + ".properties");
 		file.delete();
 	}
 
@@ -157,6 +157,7 @@ public final class Config {
 	public String currentServerQuery(String query) throws IOException {
 		String queryOutout = currentServer.query(query);
 		queryOutout = queryOutout.substring(queryOutout.indexOf('\n') + 1); //remove first line that is useless for us
+		queryOutout = queryOutout.trim(); //may remove some extra \n at the end of the query String
 		return useColors ? replaceFewColors(queryOutout) : removeColors(queryOutout);
 	}
 
@@ -167,14 +168,16 @@ public final class Config {
 	 * @return				a pseudo bash-colored string
 	 */
 	private String replaceFewColors(String colored) {
-		colored = colored.replaceAll("\\^[9|0|y|Y|i|I|p|P|j|J|k|K|;|z|Z|b|B|\\[]", "\033[30m"); //grey
-		colored = colored.replaceAll("\\^[1|q|Q|\\*]", "\033[31m"); //red
-		colored = colored.replaceAll("\\^[2|r|R|g|G|h|H|m|M|\\-|=|\\\\|\\]|']", "\033[32m"); //green
-		colored = colored.replaceAll("\\^[3|8|o|O|a|A|s|S|l|L|x|X|n|N|,|.|/]", "\033[33m"); //yellow
-		colored = colored.replaceAll("\\^[4|t|T|f|F]", "\033[34m"); //blue
-		colored = colored.replaceAll("\\^[6|e|E|c|C|v|V]", "\033[35m"); //pink
-		colored = colored.replaceAll("\\^[5|u|U|d|D]", "\033[36m"); // light blue
-		colored = colored.replaceAll("\\^7", "\033[0m"); //white
+		colored = colored.replaceAll("\\^7", "\033[0m"); //normal color
+		colored = colored.replaceAll("\\^[9|0|p|P|w|W|y|Y|z|Z|;|\\[]", "\033[0m"); //grey, but then changed to normal (since xterm likes bold)
+		colored = colored.replaceAll("\\^[1|i|I|j|J|k|K|q|Q|\\*]", "\033[31m"); //red
+		colored = colored.replaceAll("\\^[2|b|B|g|G|h|H|m|M|r|R|\\-|=|\\\\|\\]|']", "\033[32m"); //green
+		colored = colored.replaceAll("\\^[3|8|a|A|l|L|n|N|o|O|s|S|x|X|,|.|/]", "\033[33m"); //yellow
+		colored = colored.replaceAll("\\^[4|d|D|f|F|t|T]", "\033[34m"); //blue
+		colored = colored.replaceAll("\\^[6|c|C|e|E|v|V]", "\033[35m"); //pink
+		colored = colored.replaceAll("\\^[5|u|U]", "\033[36m"); // light blue
+		//colored = colored.replaceAll(regex, "\033[37m"); //full white
+
 		colored = colored.replaceAll("\n", "\033[0m\n"); //normal colors for \n
 
 		return removeColors(colored);
@@ -186,13 +189,13 @@ public final class Config {
 	 * Remarks:
 	 * Quake 3 colors are composed by 2 characters: a '^' followed by a char
 	 * The char could be an upper case letter, lower case or even a number.
-	 * It thus couldn't be another '^'
+	 * It thus couldn't be another '^' or some already made work with the bash colors
 	 * 
 	 * @param colors		colored text where we need to remove the colors
 	 * @return				the same text without any colors
 	 */
 	private String removeColors(String colored) {
-		return colored.replaceAll("\\^[^^]", "");
+		return colored.replaceAll("\\^[^[^|\\033]]", ""); //beware when there is a match like ^\\033[0m because of some premade-work
 	}
 
 	/**
@@ -205,6 +208,6 @@ public final class Config {
 		Properties prop = new Properties();
 		prop.setProperty("server", currentServer.name());
 		prop.setProperty("colors", useColors + "");
-		prop.store(new FileOutputStream(".jarcon/" + configFile), null);
+		prop.store(new FileOutputStream(System.getProperty("user.home") + "/" + ".jarcon/" + configFile), null);
 	}
 }

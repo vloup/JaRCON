@@ -57,7 +57,10 @@ public class Main {
 					}
 
 					//querying
-					System.out.print(config.currentServerQuery(query));	
+					String answer = config.currentServerQuery(query);
+					if (!answer.equals("")) { //if there is something to print
+						System.out.println(answer);
+					}
 				}
 			} catch(Exception e) {
 				displayError(e.getMessage());
