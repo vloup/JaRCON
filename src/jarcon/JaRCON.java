@@ -1,3 +1,22 @@
+/**
+ * Copyright (c) 2013 Barto
+ * 
+ * This file is part of JaRCON.
+ * 
+ * JaRCON is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * JaRCON is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with JaRCON.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package jarcon;
 
 import java.io.File;
@@ -27,6 +46,15 @@ public final class JaRCON {
 		} else {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
 				help();
+			} else if(args[0].equals("--firstRun")) {
+				try {
+					new File(System.getProperty("user.home") + "/.jarcon/servers").mkdirs();
+					new File(System.getProperty("user.home") + "/.jarcon/config.properties").createNewFile();
+					System.out.println("JaRCON is nearly ready to do your will.");
+					System.out.println("Just use --new, --server and --colors to edit your config.");
+				} catch (IOException e) {
+					displayException(e);
+				}
 			} else if(args[0].equals("--new") && 4 < args.length) {
 				//if we have --new and the 4 next arguments exist
 				//use: "--new <name> <ip> <port> <rconPassword>"
@@ -125,11 +153,17 @@ public final class JaRCON {
 		System.out.println("COMMAND [VALUE]\t\t\t\tQuery the server with the given command and value");
 		System.out.println("nothing\t\t\t\t\tSame as --help");
 		System.out.println("--help or -h\t\t\t\tShow this help");
+		System.out.println("--firstRun\t\t\t\tSetup the JaRCON working environment");
 		System.out.println("--server SERVERNAME\t\t\tSet the current server as SERVERNAME");
 		System.out.println("--new SERVERNAME IP PORT PASSWORD\tCreate a new server config file");
 		System.out.println("--delete SERVERNAME\t\t\tRemove a server");
 		System.out.println("--colors BOOLEAN\t\t\tSet the coloring display");
 		System.out.println("--status\t\t\t\tShow the current used server");
+		System.out.println();
+		System.out.println("JaRCON  Copyright (C) 2013  Barto");
+		System.out.println("This program comes with ABSOLUTELY NO WARRANTY; for details type `--help'.");
+		System.out.println("This is free software, and you are welcome to redistribute it");
+		System.out.println("under certain conditions; type `--help' for details.");
 	}
 
 	/**
@@ -139,6 +173,7 @@ public final class JaRCON {
 	 */
 	private static void displayException(Exception e) {
 		System.out.println("[Error] " + e.getMessage());
+		System.out.println("Have you used --firstRun to complete your installation?");
 		System.out.println("Try to use --help for more details");
 	}
 }

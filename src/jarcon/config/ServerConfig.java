@@ -1,3 +1,22 @@
+/**
+ * Copyright (c) 2013 Barto
+ * 
+ * This file is part of JaRCON.
+ * 
+ * JaRCON is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * JaRCON is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with JaRCON.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package jarcon.config;
 
 import jarcon.net.Server;
@@ -23,14 +42,16 @@ public final class ServerConfig extends Config {
 	/**
 	 * Return the server in the config file
 	 * 
-	 * @return		Server from config file
+	 * @return				Server from config file
+	 * @throws IOException	if password invalid
 	 */
-	public Server getServer() {
+	public Server getServer() throws IOException {
 		String name = getValue("name");
 		String ip = getValue("ip");
 		int port = Integer.parseInt(getValue("port"));
-		String password = getValue("rconPassword");
-		return new Server(name, ip, port, password);
+		String obfuscatedPassword = getValue("rconPassword");
+
+		return Server.getServerFromObfuscatedPassword(name, ip, port, obfuscatedPassword);
 	}
 
 	/**
@@ -44,7 +65,7 @@ public final class ServerConfig extends Config {
 		sc.setKey("name", s.getName());
 		sc.setKey("ip", s.getIP());
 		sc.setKey("port", s.getPort() + "");
-		sc.setKey("rconPassword", s.getPassword());
+		sc.setKey("rconPassword", s.getObfuscatedPassword());
 	}
 
 	/**
