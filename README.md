@@ -29,7 +29,7 @@ with multiple servers and with colored player names.
 
 4. Have fun querying the server you set earlier.
 
-###Copyright:
+### Copyright:
 
     Copyright (c) 2013 Barto
 
