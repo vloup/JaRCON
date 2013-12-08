@@ -33,7 +33,7 @@ import jarcon.util.Q3ColorsToBash;
  * @author Barto
  */
 public final class JaRCON {
-	private final static String VERSION = "1.0dev";
+	private final static String VERSION = "1.0";
 
 	/**
 	 * Main function of the JaRCON program
