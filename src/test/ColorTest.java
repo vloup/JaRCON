@@ -57,13 +57,13 @@ public class ColorTest {
 		String expected = BashColor.BLUE.getBashCode() + "A"
 				+ BashColor.LIGHT_BLUE.getBashCode() + "B"
 				+ BashColor.PURPLE.getBashCode() + "C"
-				+ BashColor.WHITE.getBashCode();
+				+ BashColor.NONE.getBashCode();
 		assertEquals(expected, Q3ColorsToBash.convertToBash(coloredText));
 	}
 
 	@Test
 	public void testConvertToBashNoMatch() {
 		String q3color = "^@";
-		assertEquals(BashColor.WHITE.getBashCode(), Q3ColorsToBash.convertToBash(q3color));
+		assertEquals(BashColor.NONE.getBashCode(), Q3ColorsToBash.convertToBash(q3color));
 	}
 }
