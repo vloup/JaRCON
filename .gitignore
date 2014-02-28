@@ -1,10 +1,23 @@
-bin/*
-.classpath
-.project
-Thumbs.db
-.DS_Store
-*.swp
+# Compiled files
 *.class
 *.jar
+bin/*
+
+# Eclipse
+.classpath
+.project
+
+# IntelliJ IDEA
+*.iml
+*.idea
+
+# VIM
+*.swp
+
+# MacOS
+.DS_Store
+
+# Windows
 *.ini
 *.bak
+Thumbs.db

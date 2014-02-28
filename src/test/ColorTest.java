@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Barto
+ * Copyright (c) 2013-2014 Barto
  * 
  * This file is part of JaRCON.
  * 
@@ -20,9 +20,9 @@
 package test;
 
 import static org.junit.Assert.*;
-import jarcon.util.BashColor;
-import jarcon.util.Q3Color;
-import jarcon.util.Q3ColorsToBash;
+import jarcon.util.color.BashColor;
+import jarcon.util.color.Q3Color;
+import jarcon.util.color.Q3ColorsToBash;
 
 import org.junit.Test;
 

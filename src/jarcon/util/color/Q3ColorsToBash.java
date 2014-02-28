@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Barto
+ * Copyright (c) 2013-2014 Barto
  * 
  * This file is part of JaRCON.
  * 
@@ -17,7 +17,7 @@
  * along with JaRCON.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package jarcon.util;
+package jarcon.util.color;
 
 import java.util.HashMap;
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Barto
+ * Copyright (c) 2013-2014 Barto
  * 
  * This file is part of JaRCON.
  * 
@@ -25,8 +25,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Random;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import jarcon.util.Base64;
 
 /**
  * Represent a Q3-like server
@@ -147,7 +146,7 @@ public final class Server {
 		byte[] mask = new byte[password.getBytes().length];
 		rand.nextBytes(mask);
 
-		return base64Encode(xor(password.getBytes(), mask));
+		return Base64.encode(xor(password.getBytes(), mask));
 	}
 
 	/**
@@ -162,7 +161,7 @@ public final class Server {
 	 */
 	public static Server getServerFromObfuscatedPassword(String name, String ip, int port, String obfuscatedPassword) throws IOException {
 		Random rand = createRandom(name, ip, port);
-		byte[] xoredPassword = base64Decode(obfuscatedPassword);
+		byte[] xoredPassword = Base64.decode(obfuscatedPassword);
 		byte[] mask = new byte[xoredPassword.length];
 		rand.nextBytes(mask);
 
@@ -181,7 +180,10 @@ public final class Server {
 			return false;
 		} else if (that.getClass().equals(getClass())) {
 			Server thatServer = (Server)that;
-			return thatServer.name.equals(name) && thatServer.ip.equals(ip) && thatServer.port == port && thatServer.password.equals(password);
+			return thatServer.name.equals(name)
+					&& thatServer.ip.equals(ip)
+					&& thatServer.port == port
+					&& thatServer.password.equals(password);
 		} 
 		return false;
 	}
@@ -235,28 +237,5 @@ public final class Server {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Encode the given sequence of bytes in base64
-	 * 
-	 * @param bytes		bytes to encode
-	 * @return			encoded String of the array of bytes
-	 */
-	private String base64Encode(byte[] bytes) {
-		BASE64Encoder enc = new BASE64Encoder();
-		return enc.encode(bytes).replaceAll("\\s", "");
-	}
-
-	/**
-	 * Decode the given String in base64
-	 *
-	 * @param s					String to decode
-	 * @return					base64 decoding of s
-	 * @throws IOException		if decoding goes wrong
-	 */
-	private static byte[] base64Decode(String s) throws IOException {
-		BASE64Decoder d = new BASE64Decoder();
-		return d.decodeBuffer(s);
 	}
 }

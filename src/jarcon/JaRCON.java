@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013 Barto
+ * Copyright (c) 2013-2014 Barto
  * 
  * This file is part of JaRCON.
  * 
@@ -25,7 +25,7 @@ import java.io.IOException;
 import jarcon.config.RootConfig;
 import jarcon.config.ServerConfig;
 import jarcon.net.Server;
-import jarcon.util.Q3ColorsToBash;
+import jarcon.util.color.Q3ColorsToBash;
 
 /**
  * Main class of the JaRCON program
@@ -46,7 +46,7 @@ public final class JaRCON {
 		} else {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
 				help();
-			} else if(args[0].equals("--firstRun")) {
+			} else if(args[0].equals("--init")) {
 				try {
 					new File(System.getProperty("user.home") + "/.jarcon/servers").mkdirs();
 					new File(System.getProperty("user.home") + "/.jarcon/config.properties").createNewFile();
@@ -121,7 +121,7 @@ public final class JaRCON {
 					for (int i = 0; i < args.length; i++) {
 						command += args[i] + " ";
 					}
-					command.trim();
+					command = command.trim();
 
 					//query
 					String answer = server.rcon(command);
@@ -153,7 +153,7 @@ public final class JaRCON {
 		System.out.println("COMMAND [VALUE]\t\t\t\tQuery the server with the given command and value");
 		System.out.println("nothing\t\t\t\t\tSame as --help");
 		System.out.println("--help or -h\t\t\t\tShow this help");
-		System.out.println("--firstRun\t\t\t\tSetup the JaRCON working environment");
+		System.out.println("--init\t\t\t\tSetup the JaRCON working environment");
 		System.out.println("--server SERVERNAME\t\t\tSet the current server as SERVERNAME");
 		System.out.println("--new SERVERNAME IP PORT PASSWORD\tCreate a new server config file");
 		System.out.println("--delete SERVERNAME\t\t\tRemove a server");
@@ -173,7 +173,7 @@ public final class JaRCON {
 	 */
 	private static void displayException(Exception e) {
 		System.out.println("[Error] " + e.getMessage());
-		System.out.println("Have you used --firstRun to complete your installation?");
+		System.out.println("Have you used --init to complete your installation?");
 		System.out.println("Try to use --help for more details");
 	}
 }
