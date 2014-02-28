@@ -23,7 +23,7 @@ with multiple servers and with colored player names.
     Just add this lines into your .bashrc and restart bash:
 	`alias rcon="java -jar JaRCON.jar"`.
 
-3.  Start the JaRCON environment with `--firstRun` followed by
+3.  Start the JaRCON environment with `--init` followed by
     `--new`, `--colors`, `--server`.
     Use the `--help` if you have any troubles.
 
