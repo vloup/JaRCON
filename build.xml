@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project name="JaRCON" default="compile" basedir=".">
+	<description>
+		Quake 3 rcon commands in Java
+	</description>
+
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
+
+	<target name="init" description="Initialisation">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init" description="Compile the sources">
+		<echo>Compiling</echo>
+		<javac srcdir="${src}" destdir="${build}" includeAntRuntime="false">
+			<exclude name="test/*.java"/>
+		</javac>
+	</target>
+
+	<target name="dist" depends="clean, compile" description="Create the jar file">
+		<echo>Creating the jar</echo>
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/JaRCON-${DSTAMP}.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="jarcon.JaRCON"/>
+				<attribute name="Built-By" value="Barto"/>
+				<section name="common">
+					<attribute name="Specification-Title" value="JaRCON"/>
+				</section>
+			</manifest>
+			<exclude name="test/*"/>
+		</jar>
+	</target>
+
+	<target name="all" depends="compile, dist" description="Everything">
+		<echo>Doing all</echo>
+	</target>
+
+	<target name="clean" description="Clean the source folder">
+		<echo>Cleaning the build</echo>
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+</project>
