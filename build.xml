@@ -15,7 +15,7 @@
 
 	<target name="compile" depends="init" description="Compile the sources">
 		<echo>Compiling</echo>
-		<javac srcdir="${src}" destdir="${build}" includeAntRuntime="false">
+		<javac srcdir="${src}" destdir="${build}" includeAntRuntime="false" deprecation="true" target="1.5" source="1.5">
 			<exclude name="test/*.java"/>
 		</javac>
 	</target>
