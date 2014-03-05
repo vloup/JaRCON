@@ -2,6 +2,8 @@
 *.class
 *.jar
 bin/*
+build/*
+out/*
 
 # Eclipse
 .classpath
